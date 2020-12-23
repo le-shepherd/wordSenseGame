@@ -26,3 +26,4 @@ The three versions differ as follows:
 Additional files: 
 * "wordSenseInstructions.bmp" is an image containing
    the instructions.
+* "wordSenseScores.txt" placeholder for the top ten list   
