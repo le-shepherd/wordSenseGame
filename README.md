@@ -14,3 +14,15 @@ to A1 and B2 to A2.
 
 Every correct match earns the player a point. The game ends after 60 seconds.
 
+The three versions differ as follows:
+
+1. "wordSenseGame.py": target nouns are the head, that is, the right
+   word of the compound. Both targets highlighted
+1. "wordSenseGame2.py": target nouns are the modifier, that is, the left
+   word of the compound. Both targets highlighted
+1. "wordSenseGame3.py": target nouns are head for one compound and
+   modifier for its partner. No highlighting
+   
+Additional files: 
+* "wordSenseInstructions.bmp" is an image containing
+   the instructions.
