@@ -1,6 +1,7 @@
 import pygame, random, sys
 from pygame.locals import *
-# rom random import shuffle
+import pickle # to turn the csv table into a byte stream
+import os.path # to check whether pickled data exists in file already
 
 ########################################################
 #
@@ -8,25 +9,14 @@ from pygame.locals import *
 #
 ########################################################
 
-import pickle # to turn the csv table into a byte stream
-import os.path # to check whether pickled data exists in file already
-
-# We need to read from File: the High Scores, in the form Name,Score
-# read "wordSenseScores.txt"
+# read in existing high score list (if it exists) from "data.pickle"
 
 if os.path.isfile("./data.pickle"):
     with open('data.pickle', 'rb') as f:
         content = pickle.load(f)
 else:
-    with open('wordSenseScores.txt', 'r') as f:
-        content = f.readlines()
-        content = [x.strip() for x in content] 
-        content = [x.split(",") for x in content] 
-
-    
-    with open('data.pickle', 'wb') as f:
-        # Pickle the 'data' dictionary using the highest protocol available.
-        pickle.dump(content, f, pickle.HIGHEST_PROTOCOL)
+    # create a dummy high score list
+    content = [["test","0"] for i in range(10)]
 
 sortedList = sorted(content, key=lambda score: int(score[1]),reverse=True)
 winner,highscore = sortedList[0]
@@ -40,12 +30,6 @@ runnerUp7,highscore7 = sortedList[7]
 runnerUp8,highscore8 = sortedList[8]
 runnerUp9,highscore9 = sortedList[9]
         
-# winner,highscore = content[0]
-# runnerUp1,highscore1 = content[1]
-# runnerUp2,highscore2 = content[2]
-# runnerUp3,highscore3 = content[3]
-# runnerUp4,highscore4 = content[4]
-# runnerUp9,highscore9 = content[9]
 
 # Window settings
 WINDOWWIDTH = 1600
@@ -399,7 +383,7 @@ while True:
         # if selectedTextA and event.type == MOUSEMOTION:
         # if selectedTextA and event.type == MOUSEBUTTONDOWN:
         if selectedTextA and event.type == MOUSEMOTION:
-            # If the mouse moves, move the player where to the cursor.
+            #  If the mouse moves, move the definition with the cursor.
             # textRect.centerx = event.pos[0]
             # textRect.centery = event.pos[1]
             (mouseX,mouseY) = pygame.mouse.get_pos()
@@ -489,14 +473,6 @@ while True:
                     print("Wrong! You made a mistake")
                     correctOrNot = "Wrong!"
 
-        # The flo
-        if displayCorrect == True:
-            drawText('Correct!', font, windowSurface, 50,800)
-            print("test")
-            pygame.display.update()
-            if (((pygame.time.get_ticks() - start_time) - displayCorrectStartTime)) > 5000: 
-              displayCorrect = False
-              print("testover")
         for structures in sourceList[:]:
                 
             if definitionAMatched == True and definitionBMatched == True:
@@ -720,7 +696,7 @@ while True:
                 
             # drawText('Your score: points', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 150)
             drawText('Press a key to exit.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 200)
-            print("wann sind wir hier")
+            print("waiting for final key press to exit the game")
 
             
             pygame.display.update()
@@ -733,11 +709,11 @@ while True:
     if displayCorrect == True:
         # drawText('Correct!', font, windowSurface, WINDOWWIDTH-150,WINDOWHEIGHT-500)
         drawText(correctOrNot, font, windowSurface, WINDOWWIDTH-150,WINDOWHEIGHT-500)
-        print("test")
+        print("displaying whether matching was correct or not")
         pygame.display.update()
         if (((pygame.time.get_ticks() - start_time) - displayCorrectStartTime)) > timeCorrect: 
           displayCorrect = False
-          print("testover")
+          print("display correct/wrong stopped")
     # drawText('Time: %s' % (elapsedTime), font, windowSurface, 10, 0)
     windowSurface.blit(textA,textARect)
     windowSurface.blit(textB,textBRect)
